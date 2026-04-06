@@ -12,6 +12,7 @@ import TreatmentJourney from '@/components/modules/TreatmentJourney';
 import HealthScore from '@/components/modules/HealthScore';
 import ToothModel3D from '@/components/modules/ToothModel3D';
 import OralHealthSimulation from '@/components/modules/OralHealthSimulation';
+import PatientExplanationMode from '@/components/modules/PatientExplanationMode';
 
 type Module = 'dashboard' | 'patient' | 'scan' | 'diagnosis' | 'treatment' | 'score' | 'tooth3d' | 'simulation';
 
@@ -23,6 +24,7 @@ const moduleVariants = {
 
 export default function FlowPattern() {
   const [activeModule, setActiveModule] = useState<Module>('dashboard');
+  const [patientMode, setPatientMode] = useState(false);
 
   const renderModule = () => {
     switch (activeModule) {
@@ -42,7 +44,11 @@ export default function FlowPattern() {
       <Sidebar activeModule={activeModule} onModuleChange={setActiveModule} />
 
       <div className="flex flex-col flex-1 min-w-0 h-full">
-        <Header activeModule={activeModule} />
+        <Header activeModule={activeModule} onExplainToPatient={() => setPatientMode(true)} />
+
+        <AnimatePresence>
+          {patientMode && <PatientExplanationMode onClose={() => setPatientMode(false)} />}
+        </AnimatePresence>
 
         <main className="flex-1 overflow-hidden" style={{ background: 'var(--bg-base)' }}>
           <AnimatePresence>

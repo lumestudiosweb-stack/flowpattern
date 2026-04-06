@@ -19,9 +19,10 @@ const moduleTitles: Record<Module, string> = {
 
 interface HeaderProps {
   activeModule: Module;
+  onExplainToPatient: () => void;
 }
 
-export default function Header({ activeModule }: HeaderProps) {
+export default function Header({ activeModule, onExplainToPatient }: HeaderProps) {
   const [time, setTime] = useState('');
   const [sessionSeconds, setSessionSeconds] = useState(0);
 
@@ -85,8 +86,27 @@ export default function Header({ activeModule }: HeaderProps) {
         />
       </motion.div>
 
-      {/* Right: time + session */}
-      <div className="flex items-center gap-5">
+      {/* Right: explain button + time + session */}
+      <div className="flex items-center gap-4">
+        {/* Explain to Patient button */}
+        <motion.button
+          onClick={onExplainToPatient}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all"
+          style={{
+            background: 'var(--accent)',
+            color: '#000',
+            boxShadow: '0 0 16px rgba(0,212,170,0.35)',
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
+            <path d="M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2h2" />
+            <path d="M12 3v13M8 7l4-4 4 4" />
+          </svg>
+          Explain to Patient
+        </motion.button>
+
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#ffa502' }} />
           <span className="text-xs font-mono" style={{ color: 'var(--text-secondary)' }}>
