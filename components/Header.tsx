@@ -32,95 +32,125 @@ export default function Header({ activeModule, onExplainToPatient }: HeaderProps
       setTime(now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }));
     };
     tick();
-    const clockInterval = setInterval(tick, 1000);
-    const sessionInterval = setInterval(() => setSessionSeconds(s => s + 1), 1000);
-    return () => { clearInterval(clockInterval); clearInterval(sessionInterval); };
+    const clockId = setInterval(tick, 1000);
+    const sessionId = setInterval(() => setSessionSeconds(s => s + 1), 1000);
+    return () => { clearInterval(clockId); clearInterval(sessionId); };
   }, []);
 
-  const sessionTime = `${String(Math.floor(sessionSeconds / 60)).padStart(2, '0')}:${String(sessionSeconds % 60).padStart(2, '0')}`;
+  const mm = String(Math.floor(sessionSeconds / 60)).padStart(2, '0');
+  const ss = String(sessionSeconds % 60).padStart(2, '0');
 
   return (
     <header
-      className="flex items-center justify-between px-6 h-16 border-b shrink-0"
-      style={{ borderColor: 'var(--border)', background: 'var(--bg-surface)' }}
+      className="flex items-center justify-between px-5 shrink-0"
+      style={{
+        height: 64,
+        background: 'var(--bg-surface)',
+        borderBottom: '1px solid var(--border)',
+        boxShadow: '0 1px 0 rgba(255,255,255,0.03)',
+      }}
     >
-      {/* Left: breadcrumb */}
-      <div className="flex items-center gap-3">
-        <span className="text-xs tracking-widest uppercase" style={{ color: 'var(--text-muted)' }}>
+      {/* Left — breadcrumb */}
+      <div className="flex items-center gap-2.5 min-w-0">
+        <span
+          className="text-[11px] tracking-[0.16em] uppercase font-semibold"
+          style={{ color: 'var(--text-muted)' }}
+        >
           FlowPattern
         </span>
-        <span style={{ color: 'var(--border)' }}>/</span>
+        <span style={{ color: 'var(--border-strong)', fontSize: 16, lineHeight: 1 }}>/</span>
         <motion.span
           key={activeModule}
-          initial={{ opacity: 0, y: 4 }}
+          initial={{ opacity: 0, y: 3 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-sm font-medium"
+          transition={{ duration: 0.2 }}
+          className="text-sm font-medium truncate"
           style={{ color: 'var(--text-primary)' }}
         >
           {moduleTitles[activeModule]}
         </motion.span>
       </div>
 
-      {/* Center: patient pill */}
+      {/* Center — patient identity pill */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, scale: 0.95, y: -4 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.3 }}
         className="flex items-center gap-3 px-4 py-2 rounded-full"
-        style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
+        style={{
+          background: 'var(--bg-elevated)',
+          border: '1px solid var(--border-strong)',
+          boxShadow: 'var(--shadow-sm)',
+        }}
       >
         <div
-          className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
-          style={{ background: 'var(--accent-dim)', color: 'var(--accent)', border: '1px solid var(--accent-glow)' }}
+          className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
+          style={{
+            background: 'linear-gradient(135deg, rgba(0,212,170,0.25) 0%, rgba(0,212,170,0.12) 100%)',
+            color: 'var(--accent)',
+            border: '1.5px solid var(--accent-glow)',
+          }}
         >
           {mockPatient.avatar}
         </div>
-        <div className="flex flex-col leading-none">
-          <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{mockPatient.name}</span>
-          <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
-            {mockPatient.age} yrs · {mockPatient.id}
+        <div className="flex flex-col leading-none gap-0.5">
+          <span className="text-[13px] font-semibold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+            {mockPatient.name}
+          </span>
+          <span className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>
+            {mockPatient.age} yrs · {mockPatient.id} · {mockPatient.insuranceProvider}
           </span>
         </div>
+        <div className="w-px h-5 mx-1" style={{ background: 'var(--border)' }} />
         <div
-          className="w-1.5 h-1.5 rounded-full ml-1"
-          style={{ background: 'var(--accent)', boxShadow: '0 0 6px var(--accent)' }}
+          className="w-1.5 h-1.5 rounded-full pulse-dot"
+          style={{ background: 'var(--accent)', boxShadow: '0 0 5px rgba(0,212,170,0.7)' }}
         />
       </motion.div>
 
-      {/* Right: explain button + time + session */}
-      <div className="flex items-center gap-4">
-        {/* Explain to Patient button */}
+      {/* Right — actions + clock */}
+      <div className="flex items-center gap-3">
+        {/* Explain to Patient */}
         <motion.button
           onClick={onExplainToPatient}
-          whileHover={{ scale: 1.03 }}
+          whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
-          className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-semibold tracking-wide"
           style={{
-            background: 'var(--accent)',
+            background: 'linear-gradient(135deg, #00d4aa 0%, #009e7f 100%)',
             color: '#000',
-            boxShadow: '0 0 16px rgba(0,212,170,0.35)',
+            boxShadow: '0 0 20px rgba(0,212,170,0.3), 0 2px 8px rgba(0,0,0,0.3)',
           }}
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
-            <path d="M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2h2" />
-            <path d="M12 3v13M8 7l4-4 4 4" />
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
+            <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" />
+            <path d="M10 6v4M10 12v.5" strokeLinecap="round" />
           </svg>
           Explain to Patient
         </motion.button>
 
-        <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#ffa502' }} />
-          <span className="text-xs font-mono" style={{ color: 'var(--text-secondary)' }}>
-            Session {sessionTime}
+        {/* Session timer */}
+        <div
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+          style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
+        >
+          <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#ffaa00' }} />
+          <span className="text-[11px] font-mono font-medium" style={{ color: 'var(--text-secondary)', letterSpacing: '0.06em' }}>
+            {mm}:{ss}
           </span>
         </div>
+
+        {/* Clock */}
         <div
-          className="text-sm font-mono tracking-widest"
-          style={{ color: 'var(--text-muted)' }}
+          className="text-[13px] font-mono font-medium tracking-[0.12em]"
+          style={{ color: 'var(--text-muted)', minWidth: 44, textAlign: 'right' }}
         >
           {time}
         </div>
-        <div
-          className="px-3 py-1.5 rounded-lg text-xs font-medium tracking-wide cursor-pointer transition-all"
+
+        {/* End Session */}
+        <button
+          className="px-3 py-1.5 rounded-lg text-[11px] font-medium tracking-wide transition-all hover:opacity-80"
           style={{
             background: 'var(--bg-elevated)',
             border: '1px solid var(--border)',
@@ -128,7 +158,7 @@ export default function Header({ activeModule, onExplainToPatient }: HeaderProps
           }}
         >
           End Session
-        </div>
+        </button>
       </div>
     </header>
   );

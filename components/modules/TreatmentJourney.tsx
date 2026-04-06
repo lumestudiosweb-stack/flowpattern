@@ -5,117 +5,119 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { mockTreatmentPlan } from '@/lib/mockData';
 
 const categoryColor: Record<string, string> = {
-  restorative: '#4a9eff',
-  periodontal: '#ffa502',
-  preventive: 'var(--accent)',
-  endodontic: '#ff4757',
-  cosmetic: '#bf8bff',
-  surgical: '#ff4757',
-  orthodontic: '#4a9eff',
+  restorative: 'var(--info)',
+  periodontal: 'var(--warning)',
+  preventive:  'var(--accent)',
+  endodontic:  'var(--critical)',
+  cosmetic:    '#bf8bff',
+  surgical:    'var(--critical)',
+  orthodontic: 'var(--info)',
 };
 
+const painIcon: Record<string, string> = {
+  none: '● None', minimal: '● Minimal', mild: '● Mild', moderate: '● Moderate', significant: '● Significant',
+};
 const painColor: Record<string, string> = {
-  none: 'var(--accent)',
-  minimal: 'var(--accent)',
-  mild: '#ffa502',
-  moderate: '#ffa502',
-  significant: '#ff4757',
+  none: 'var(--accent)', minimal: 'var(--accent)', mild: 'var(--warning)', moderate: 'var(--warning)', significant: 'var(--critical)',
 };
 
 export default function TreatmentJourney() {
-  const [selectedPhase, setSelectedPhase] = useState<string>(mockTreatmentPlan.phases[0].id);
+  const [selectedPhase, setSelectedPhase] = useState(mockTreatmentPlan.phases[0].id);
   const [selectedTx, setSelectedTx] = useState<string | null>(null);
-
   const phase = mockTreatmentPlan.phases.find((p) => p.id === selectedPhase)!;
 
   return (
-    <div className="h-full flex flex-col gap-5 p-6 overflow-hidden">
+    <div className="h-full flex flex-col gap-5 overflow-hidden" style={{ padding: '20px 24px' }}>
 
+      {/* ── Header row ── */}
       <div className="flex items-center justify-between shrink-0">
         <div>
-          <h1 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Treatment Journey</h1>
-          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
-            {mockTreatmentPlan.phases.length} phases · Estimated duration: {mockTreatmentPlan.totalDuration}
+          <h1 className="text-[20px] font-semibold tracking-tight" style={{ color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>
+            Treatment Journey
+          </h1>
+          <p className="text-[12px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            {mockTreatmentPlan.phases.length} phases · {mockTreatmentPlan.totalDuration}
           </p>
         </div>
-        <div
-          className="px-4 py-2 rounded-lg text-sm font-medium"
-          style={{ background: 'var(--accent-dim)', color: 'var(--accent)', border: '1px solid var(--accent-glow)' }}
-        >
-          Score projection: 67 → {67 + 12}
+        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl"
+          style={{ background: 'var(--accent-dim-strong)', border: '1px solid var(--accent-glow)' }}>
+          <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Score projection</span>
+          <span className="text-[13px] font-bold" style={{ color: 'var(--accent)' }}>67 → 79</span>
         </div>
       </div>
 
-      {/* Phase selector timeline */}
-      <div className="shrink-0 flex items-stretch gap-0">
+      {/* ── Phase timeline ── */}
+      <div className="shrink-0 flex items-start gap-0">
         {mockTreatmentPlan.phases.map((p, i) => {
           const isActive = p.id === selectedPhase;
           const isDone = p.isCompleted;
+          const isLast = i === mockTreatmentPlan.phases.length - 1;
           return (
-            <div key={p.id} className="flex-1 flex flex-col">
+            <div key={p.id} className="flex-1 flex flex-col gap-2">
               <div className="flex items-center">
                 <motion.button
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.94 }}
                   onClick={() => setSelectedPhase(p.id)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 z-10 transition-all"
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-bold shrink-0 z-10 transition-all"
                   style={{
-                    background: isActive ? 'var(--accent)' : isDone ? 'var(--accent-dim)' : 'var(--bg-elevated)',
+                    background: isActive ? 'linear-gradient(135deg, #00d4aa, #009e7f)' : isDone ? 'var(--accent-dim)' : 'var(--bg-elevated)',
                     color: isActive ? '#000' : isDone ? 'var(--accent)' : 'var(--text-muted)',
-                    border: `2px solid ${isActive ? 'var(--accent)' : isDone ? 'var(--accent-glow)' : 'var(--border)'}`,
-                    boxShadow: isActive ? '0 0 16px var(--accent-glow)' : 'none',
+                    border: `2px solid ${isActive ? 'transparent' : isDone ? 'var(--accent-glow)' : 'var(--border)'}`,
+                    boxShadow: isActive ? '0 0 20px rgba(0,212,170,0.4)' : 'none',
                   }}
                 >
                   {isDone ? '✓' : i + 1}
                 </motion.button>
-                {i < mockTreatmentPlan.phases.length - 1 && (
-                  <div className="flex-1 h-px mx-1" style={{ background: 'var(--border)' }} />
+                {!isLast && (
+                  <div className="flex-1 h-px mx-2"
+                    style={{ background: 'linear-gradient(to right, var(--accent-glow), var(--border))' }} />
                 )}
               </div>
-              <div className="mt-2 pr-4">
-                <p className="text-xs font-medium" style={{ color: isActive ? 'var(--accent)' : 'var(--text-secondary)' }}>
+              <div className="pr-4">
+                <p className="text-[12px] font-semibold" style={{ color: isActive ? 'var(--accent)' : 'var(--text-secondary)' }}>
                   {p.title}
                 </p>
-                <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{p.dateRange}</p>
+                <p className="text-[10px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{p.dateRange}</p>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Phase detail */}
+      {/* ── Phase detail ── */}
       <AnimatePresence mode="wait">
         <motion.div
           key={selectedPhase}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}
           className="flex-1 overflow-y-auto space-y-4"
         >
-          {/* Phase header */}
-          <div
-            className="rounded-xl p-4 flex items-center justify-between"
+          {/* Phase banner */}
+          <div className="rounded-2xl px-5 py-4 flex items-center justify-between"
             style={{
-              background: phase.isActive ? 'var(--accent-dim)' : 'var(--bg-elevated)',
-              border: `1px solid ${phase.isActive ? 'var(--accent-glow)' : 'var(--border)'}`,
-            }}
-          >
+              background: phase.isActive
+                ? 'linear-gradient(135deg, rgba(0,212,170,0.1) 0%, rgba(0,158,127,0.05) 100%)'
+                : 'var(--bg-elevated)',
+              border: `1px solid ${phase.isActive ? 'rgba(0,212,170,0.24)' : 'var(--border)'}`,
+              boxShadow: phase.isActive ? 'var(--shadow-accent)' : 'var(--shadow-sm)',
+            }}>
             <div>
               <div className="flex items-center gap-2">
-                <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                <p className="text-[14px] font-semibold" style={{ color: 'var(--text-primary)' }}>
                   Phase {mockTreatmentPlan.phases.indexOf(phase) + 1}: {phase.title}
                 </p>
                 {phase.isActive && (
-                  <span className="text-[10px] px-2 py-0.5 rounded-full font-medium uppercase tracking-wide" style={{ background: 'var(--accent)', color: '#000' }}>
+                  <span className="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide"
+                    style={{ background: 'var(--accent)', color: '#000' }}>
                     Active
                   </span>
                 )}
               </div>
-              <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>{phase.subtitle}</p>
+              <p className="text-[12px] mt-0.5" style={{ color: 'var(--text-secondary)' }}>{phase.subtitle}</p>
             </div>
             <div className="text-right">
-              <p className="text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Timeframe</p>
-              <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{phase.dateRange}</p>
+              <p className="text-[9px] uppercase tracking-[0.14em]" style={{ color: 'var(--text-muted)' }}>Timeframe</p>
+              <p className="text-[13px] font-semibold mt-0.5" style={{ color: 'var(--text-primary)' }}>{phase.dateRange}</p>
             </div>
           </div>
 
@@ -123,90 +125,78 @@ export default function TreatmentJourney() {
           <div className="grid grid-cols-2 gap-4">
             {phase.treatments.map((tx) => {
               const isSelected = selectedTx === tx.id;
-              const catColor = categoryColor[tx.category] ?? 'var(--text-secondary)';
+              const cc = categoryColor[tx.category] ?? 'var(--text-secondary)';
               return (
                 <motion.div
-                  key={tx.id}
-                  layout
-                  className="rounded-xl overflow-hidden"
-                  style={{ background: 'var(--bg-elevated)', border: `1px solid ${isSelected ? catColor + '50' : 'var(--border)'}` }}
+                  key={tx.id} layout
+                  className="rounded-2xl overflow-hidden transition-all"
+                  style={{
+                    background: 'var(--bg-elevated)',
+                    border: `1px solid ${isSelected ? cc + '40' : 'var(--border)'}`,
+                    boxShadow: isSelected ? `0 0 20px ${cc}18` : 'var(--shadow-sm)',
+                  }}
                 >
-                  {/* Card header */}
-                  <button
-                    onClick={() => setSelectedTx(isSelected ? null : tx.id)}
-                    className="w-full p-4 text-left"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <span
-                        className="text-[10px] uppercase tracking-widest font-medium px-2 py-0.5 rounded"
-                        style={{ background: `${catColor}15`, color: catColor }}
-                      >
+                  <button onClick={() => setSelectedTx(isSelected ? null : tx.id)}
+                    className="w-full p-4 text-left">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[10px] uppercase tracking-wide font-semibold px-2.5 py-0.5 rounded-full"
+                        style={{ background: `${cc}15`, color: cc, border: `1px solid ${cc}28` }}>
                         {tx.category}
                       </span>
                       <div className="flex items-center gap-2">
-                        {tx.isUrgent && (
-                          <span className="text-[10px]" style={{ color: '#ffa502' }}>Urgent</span>
-                        )}
-                        {tx.insuranceCovered && (
-                          <span className="text-[10px]" style={{ color: 'var(--accent)' }}>Covered</span>
-                        )}
+                        {tx.isUrgent && <span className="text-[10px] font-semibold" style={{ color: 'var(--warning)' }}>Urgent</span>}
+                        {tx.insuranceCovered && <span className="text-[10px] font-semibold" style={{ color: 'var(--accent)' }}>Covered ✓</span>}
                       </div>
                     </div>
-                    <p className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>{tx.plainEnglishName}</p>
-                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{tx.name}</p>
-                    <div className="flex items-center gap-4 mt-3">
-                      <div>
-                        <p className="text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Duration</p>
-                        <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{tx.durationMinutes} min</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Visits</p>
-                        <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{tx.appointments}</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Discomfort</p>
-                        <p className="text-sm font-medium capitalize" style={{ color: painColor[tx.painLevel] }}>
-                          {tx.painLevel}
-                        </p>
-                      </div>
+                    <p className="text-[15px] font-semibold" style={{ color: 'var(--text-primary)' }}>{tx.plainEnglishName}</p>
+                    <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{tx.name}</p>
+                    <div className="flex items-center gap-4 mt-3.5">
+                      {[
+                        { label: 'Duration', value: `${tx.durationMinutes} min` },
+                        { label: 'Visits',   value: String(tx.appointments) },
+                        { label: 'Pain',     value: painIcon[tx.painLevel], color: painColor[tx.painLevel] },
+                      ].map((stat) => (
+                        <div key={stat.label}>
+                          <p className="text-[9px] uppercase tracking-[0.14em]" style={{ color: 'var(--text-muted)' }}>{stat.label}</p>
+                          <p className="text-[13px] font-semibold mt-0.5"
+                            style={{ color: stat.color ?? 'var(--text-primary)' }}>{stat.value}</p>
+                        </div>
+                      ))}
                     </div>
                   </button>
 
-                  {/* Expanded steps */}
                   <AnimatePresence>
                     {isSelected && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden"
+                        initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }} className="overflow-hidden"
                       >
-                        <div className="px-4 pb-4 pt-0 space-y-3 border-t" style={{ borderColor: 'var(--border)' }}>
-                          <p className="text-xs font-semibold uppercase tracking-widest pt-3" style={{ color: 'var(--text-muted)' }}>
-                            What Happens
+                        <div className="px-4 pb-4 space-y-3" style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16 }}>
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: 'var(--text-muted)' }}>
+                            Step by Step
                           </p>
                           <div className="space-y-2">
                             {tx.steps.map((step, i) => (
                               <div key={i} className="flex items-start gap-3">
-                                <span
-                                  className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0 mt-0.5"
-                                  style={{ background: catColor + '20', color: catColor }}
-                                >
+                                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0 mt-0.5"
+                                  style={{ background: `${cc}18`, color: cc, border: `1px solid ${cc}28` }}>
                                   {i + 1}
                                 </span>
-                                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{step}</p>
+                                <p className="text-[12px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{step}</p>
                               </div>
                             ))}
                           </div>
-                          <div className="grid grid-cols-2 gap-2 pt-2">
-                            <div className="p-2 rounded-lg" style={{ background: 'var(--bg-card)' }}>
-                              <p className="text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Cost Est.</p>
-                              <p className="text-sm font-medium mt-0.5" style={{ color: 'var(--text-primary)' }}>{tx.costRange}</p>
-                            </div>
-                            <div className="p-2 rounded-lg" style={{ background: 'var(--bg-card)' }}>
-                              <p className="text-[10px] uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Longevity</p>
-                              <p className="text-sm font-medium mt-0.5" style={{ color: 'var(--text-primary)' }}>{tx.longevity}</p>
-                            </div>
+                          <div className="grid grid-cols-2 gap-2 pt-1">
+                            {[
+                              { label: 'Cost Estimate', value: tx.costRange },
+                              { label: 'Longevity',     value: tx.longevity },
+                            ].map((stat) => (
+                              <div key={stat.label} className="p-2.5 rounded-xl"
+                                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                                <p className="text-[9px] uppercase tracking-[0.12em]" style={{ color: 'var(--text-muted)' }}>{stat.label}</p>
+                                <p className="text-[12px] font-semibold mt-0.5" style={{ color: 'var(--text-primary)' }}>{stat.value}</p>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       </motion.div>

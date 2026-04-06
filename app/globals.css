@@ -1,44 +1,79 @@
 @import "tailwindcss";
 
 :root {
-  --bg-base: #080808;
-  --bg-surface: #0f0f0f;
-  --bg-elevated: #161616;
-  --bg-card: #1c1c1c;
-  --border: #242424;
-  --border-subtle: #1a1a1a;
-  --text-primary: #f0f0f0;
-  --text-secondary: #888888;
-  --text-muted: #444444;
-  --accent: #00d4aa;
-  --accent-dim: rgba(0, 212, 170, 0.1);
-  --accent-glow: rgba(0, 212, 170, 0.25);
-  --critical: #ff4757;
-  --warning: #ffa502;
-  --good: #2ed573;
+  /* ── Surfaces — cool-dark, slight blue-slate undertone ── */
+  --bg-base:     #07080f;
+  --bg-surface:  #0c0e18;
+  --bg-elevated: #111422;
+  --bg-card:     #171b2e;
+  --bg-overlay:  #1e2338;
+
+  /* ── Borders ── */
+  --border:        rgba(255, 255, 255, 0.07);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-strong: rgba(255, 255, 255, 0.13);
+  --border-accent: rgba(0, 212, 170, 0.28);
+
+  /* ── Text ── */
+  --text-primary:   #eef0f8;
+  --text-secondary: rgba(238, 240, 248, 0.52);
+  --text-muted:     rgba(238, 240, 248, 0.26);
+  --text-disabled:  rgba(238, 240, 248, 0.13);
+
+  /* ── Accent — teal ── */
+  --accent:            #00d4aa;
+  --accent-bright:     #00f0c2;
+  --accent-dim:        rgba(0, 212, 170, 0.1);
+  --accent-dim-strong: rgba(0, 212, 170, 0.18);
+  --accent-glow:       rgba(0, 212, 170, 0.22);
+  --accent-glow-hard:  rgba(0, 212, 170, 0.45);
+
+  /* ── Status colors ── */
+  --critical:     #ff4d5e;
+  --critical-dim: rgba(255, 77, 94, 0.1);
+  --warning:      #ffaa00;
+  --warning-dim:  rgba(255, 170, 0, 0.1);
+  --good:         #00d4aa;
+  --info:         #4a9eff;
+  --info-dim:     rgba(74, 158, 255, 0.1);
+
+  /* ── Shadows ── */
+  --shadow-sm:     0 1px 3px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.04);
+  --shadow-md:     0 4px 20px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.6);
+  --shadow-lg:     0 8px 40px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-accent: 0 0 24px rgba(0, 212, 170, 0.22), 0 0 6px rgba(0, 212, 170, 0.14);
+
+  /* ── Typography ── */
+  --font-sans: var(--font-inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   background: var(--bg-base);
   color: var(--text-primary);
+  font-family: var(--font-sans);
   height: 100%;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar { width: 3px; height: 3px; }
+/* ── Scrollbars ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
 
+/* ── Subtle dot grid ── */
 .grid-bg {
-  background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 32px 32px;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
+/* ── Scan-line sweep ── */
 .scanline {
   position: relative;
   overflow: hidden;
@@ -50,11 +85,32 @@ html, body {
   left: 0;
   right: 0;
   height: 40%;
-  background: linear-gradient(transparent, rgba(0, 212, 170, 0.03), transparent);
-  animation: scanMove 5s linear infinite;
+  background: linear-gradient(transparent, rgba(0, 212, 170, 0.025), transparent);
+  animation: scanMove 6s linear infinite;
   pointer-events: none;
 }
 @keyframes scanMove {
   0%   { top: -40%; }
-  100% { top: 100%; }
+  100% { top: 110%; }
+}
+
+/* ── Pulse dot ── */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(0,212,170,0.5); }
+  50%       { opacity: 0.85; transform: scale(0.9); box-shadow: 0 0 0 4px rgba(0,212,170,0); }
+}
+.pulse-dot { animation: pulseDot 2.4s ease-in-out infinite; }
+
+/* ── Glow text ── */
+.glow-text { text-shadow: 0 0 24px rgba(0,212,170,0.45); }
+
+/* ── Noise overlay (subtle texture) ── */
+.noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.4;
 }
