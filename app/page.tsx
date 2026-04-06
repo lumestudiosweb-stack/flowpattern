@@ -11,8 +11,9 @@ import DiagnosisPanel from '@/components/modules/DiagnosisPanel';
 import TreatmentJourney from '@/components/modules/TreatmentJourney';
 import HealthScore from '@/components/modules/HealthScore';
 import ToothModel3D from '@/components/modules/ToothModel3D';
+import OralHealthSimulation from '@/components/modules/OralHealthSimulation';
 
-type Module = 'dashboard' | 'patient' | 'scan' | 'diagnosis' | 'treatment' | 'score' | 'tooth3d';
+type Module = 'dashboard' | 'patient' | 'scan' | 'diagnosis' | 'treatment' | 'score' | 'tooth3d' | 'simulation';
 
 const moduleVariants = {
   initial: { opacity: 0, y: 8 },
@@ -32,6 +33,7 @@ export default function FlowPattern() {
       case 'treatment':  return <TreatmentJourney />;
       case 'score':      return <HealthScore />;
       case 'tooth3d':    return <ToothModel3D />;
+      case 'simulation': return <OralHealthSimulation />;
     }
   };
 
@@ -43,7 +45,7 @@ export default function FlowPattern() {
         <Header activeModule={activeModule} />
 
         <main className="flex-1 overflow-hidden" style={{ background: 'var(--bg-base)' }}>
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             <motion.div
               key={activeModule}
               variants={moduleVariants}

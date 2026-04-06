@@ -9,7 +9,8 @@ type Module =
   | 'diagnosis'
   | 'treatment'
   | 'score'
-  | 'tooth3d';
+  | 'tooth3d'
+  | 'simulation';
 
 interface SidebarProps {
   activeModule: Module;
@@ -99,6 +100,21 @@ const navItems: { id: Module; label: string; shortLabel: string; icon: React.Rea
         <path d="M12 3C9 3 7 5 7 7.5c0 1.5.5 2.5 1 3.5.5 1 1 2 1 4 0 1.5.5 3 1.5 4s2 1 2.5 1 1.5-.5 2.5-1 1.5-2.5 1.5-4c0-2 .5-3 1-4 .5-1 1-2 1-3.5C18 5 16 3 12 3z" />
         <path d="M9 8c0-1.5 1-3 3-3M12 3v2" strokeOpacity="0.4" />
         <ellipse cx="12" cy="16" rx="2" ry="1.5" strokeOpacity="0.35" />
+      </svg>
+    ),
+  },
+  {
+    id: 'simulation',
+    label: 'Future Simulation',
+    shortLabel: 'Sim',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
+        <path d="M3 17l4-8 4 5 3-3 4 6" />
+        <path d="M3 20h18" strokeOpacity="0.3" />
+        <circle cx="7" cy="9" r="1" fill="currentColor" />
+        <circle cx="11" cy="14" r="1" fill="currentColor" />
+        <circle cx="14" cy="11" r="1" fill="currentColor" />
+        <circle cx="18" cy="17" r="1" fill="currentColor" />
       </svg>
     ),
   },

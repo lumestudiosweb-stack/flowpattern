@@ -4,16 +4,17 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { mockPatient } from '@/lib/mockData';
 
-type Module = 'dashboard' | 'patient' | 'scan' | 'diagnosis' | 'treatment' | 'score' | 'tooth3d';
+type Module = 'dashboard' | 'patient' | 'scan' | 'diagnosis' | 'treatment' | 'score' | 'tooth3d' | 'simulation';
 
 const moduleTitles: Record<Module, string> = {
-  dashboard: 'Overview',
-  patient:   'Patient Profile',
-  scan:      'Scan Overlay Visualization',
-  diagnosis: 'AI Diagnosis Explanation',
-  treatment: 'Treatment Journey',
-  score:     'Dental Health Score',
-  tooth3d:   '3D Tooth Model',
+  dashboard:  'Overview',
+  patient:    'Patient Profile',
+  scan:       'Scan Overlay Visualization',
+  diagnosis:  'AI Diagnosis Explanation',
+  treatment:  'Treatment Journey',
+  score:      'Dental Health Score',
+  tooth3d:    '3D Tooth Model',
+  simulation: 'Oral Health Future Simulation',
 };
 
 interface HeaderProps {
