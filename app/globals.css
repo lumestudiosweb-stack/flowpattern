@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  /* ── Pure black surfaces ── */
-  --bg-base:     #000000;
-  --bg-surface:  #090909;
-  --bg-elevated: #0f0f0f;
-  --bg-card:     #141414;
-  --bg-overlay:  #1a1a1a;
+  /* ── Deep navy surfaces ── */
+  --bg-base:     #07080f;
+  --bg-surface:  #0c0e18;
+  --bg-elevated: #111422;
+  --bg-card:     #171b2e;
+  --bg-overlay:  #1e2236;
 
   /* ── Borders ── */
   --border:        rgba(255, 255, 255, 0.08);
@@ -20,27 +20,27 @@
   --text-disabled:  rgba(255, 255, 255, 0.12);
 
   /* ── Accent palette ── */
-  --accent:            #00FFB3;   /* healthy / good */
-  --accent-bright:     #33ffbe;
-  --accent-dim:        rgba(0, 255, 179, 0.1);
-  --accent-dim-strong: rgba(0, 255, 179, 0.16);
-  --accent-glow:       rgba(0, 255, 179, 0.22);
-  --accent-glow-hard:  rgba(0, 255, 179, 0.45);
+  --accent:            #00d4aa;
+  --accent-bright:     #00f0c2;
+  --accent-dim:        rgba(0, 212, 170, 0.1);
+  --accent-dim-strong: rgba(0, 212, 170, 0.16);
+  --accent-glow:       rgba(0, 212, 170, 0.2);
+  --accent-glow-hard:  rgba(0, 212, 170, 0.4);
 
-  --critical:     #FF4D4D;        /* infection / danger */
-  --critical-dim: rgba(255, 77, 77, 0.1);
+  --critical:     #ff4d5e;
+  --critical-dim: rgba(255, 77, 94, 0.1);
 
-  --warning:      #FFD966;        /* decay / caution */
-  --warning-dim:  rgba(255, 217, 102, 0.1);
+  --warning:      #ffaa00;
+  --warning-dim:  rgba(255, 170, 0, 0.1);
 
-  --info:         #4a9eff;        /* neutral info */
+  --info:         #4a9eff;
   --info-dim:     rgba(74, 158, 255, 0.1);
 
   /* ── Shadows ── */
-  --shadow-sm:     0 1px 3px rgba(0,0,0,0.8);
-  --shadow-md:     0 4px 24px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.9);
-  --shadow-lg:     0 12px 48px rgba(0,0,0,0.8);
-  --shadow-accent: 0 0 28px rgba(0,255,179,0.18), 0 0 8px rgba(0,255,179,0.1);
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.6);
+  --shadow-md:     0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.7);
+  --shadow-lg:     0 12px 48px rgba(0,0,0,0.6);
+  --shadow-accent: 0 0 28px rgba(0,212,170,0.15), 0 0 8px rgba(0,212,170,0.08);
 
   /* ── Typography ── */
   --font-sans: var(--font-inter, -apple-system, 'SF Pro Display', 'Segoe UI', sans-serif);
@@ -51,7 +51,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  background: #000000;
+  background: #07080f;
   color: #ffffff;
   font-family: var(--font-sans);
   height: 100%;
@@ -68,7 +68,7 @@ html, body {
 
 /* ── Subtle grid ── */
 .grid-bg {
-  background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -77,7 +77,7 @@ html, body {
 .scanline::after {
   content: '';
   position: absolute; top: -40%; left: 0; right: 0; height: 40%;
-  background: linear-gradient(transparent, rgba(0,255,179,0.02), transparent);
+  background: linear-gradient(transparent, rgba(0,212,170,0.015), transparent);
   animation: scanMove 7s linear infinite;
   pointer-events: none;
 }
@@ -85,12 +85,12 @@ html, body {
 
 /* ── Pulse dot ── */
 @keyframes pulseDot {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,179,0.5); }
-  50%       { opacity: 0.8; box-shadow: 0 0 0 5px rgba(0,255,179,0); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,212,170,0.4); }
+  50%       { opacity: 0.8; box-shadow: 0 0 0 5px rgba(0,212,170,0); }
 }
 .pulse-dot { animation: pulseDot 2.4s ease-in-out infinite; }
 
 /* ── Glow text ── */
-.glow-text { text-shadow: 0 0 30px rgba(0,255,179,0.5); }
-.glow-red  { text-shadow: 0 0 30px rgba(255,77,77,0.5); }
-.glow-yel  { text-shadow: 0 0 30px rgba(255,217,102,0.5); }
+.glow-text { text-shadow: 0 0 30px rgba(0,212,170,0.4); }
+.glow-red  { text-shadow: 0 0 30px rgba(255,77,94,0.4); }
+.glow-yel  { text-shadow: 0 0 30px rgba(255,170,0,0.4); }

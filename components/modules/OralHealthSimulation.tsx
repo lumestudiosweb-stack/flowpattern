@@ -232,13 +232,13 @@ function StageCard({
         )}
 
         <div className="flex items-start gap-3">
-          {/* icon + time */}
+          {/* severity indicator + time */}
           <div className="flex flex-col items-center gap-1 shrink-0">
             <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-base"
+              className="w-9 h-9 rounded-xl flex items-center justify-center"
               style={{ background: isActive ? `${scenarioAccent}20` : 'var(--bg-elevated)' }}
             >
-              {stage.icon}
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: s.dot, boxShadow: isActive ? `0 0 6px ${s.dot}` : 'none' }} />
             </div>
             <span
               className="text-[9px] font-mono text-center leading-tight"

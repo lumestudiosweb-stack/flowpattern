@@ -106,7 +106,7 @@ export default function Header({ activeModule, onExplainToPatient }: HeaderProps
         </motion.button>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
           style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}>
-          <div className="w-1 h-1 rounded-full" style={{ background: '#FFD966' }} />
+          <div className="w-1 h-1 rounded-full" style={{ background: 'var(--warning)' }} />
           <span className="text-[11px] font-mono font-semibold" style={{ color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>
             {mm}:{ss}
           </span>

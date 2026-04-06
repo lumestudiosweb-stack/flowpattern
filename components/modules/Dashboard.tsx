@@ -54,7 +54,7 @@ export default function Dashboard({ onModuleChange }: DashboardProps) {
             whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
             onClick={() => onModuleChange('story')}
             className="flex items-center gap-2.5 px-6 py-3 rounded-full text-[13px] font-bold"
-            style={{ background: 'var(--accent)', color: '#000', boxShadow: '0 0 30px rgba(0,255,179,0.4)' }}
+            style={{ background: 'var(--accent)', color: '#000', boxShadow: '0 0 24px rgba(0,212,170,0.3)' }}
           >
             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
               <path d="M10 2.5L12.5 8h6l-5 3.5 2 6.5-5.5-4-5.5 4 2-6.5-5-3.5h6z" strokeLinejoin="round"/>

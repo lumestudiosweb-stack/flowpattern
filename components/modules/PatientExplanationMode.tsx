@@ -70,7 +70,6 @@ function PathFork({ label, good, bad }: { label: string; good: string; bad: stri
         className="flex-1 rounded-2xl p-4 flex flex-col gap-2"
         style={{ background: 'rgba(255,71,87,0.09)', border: '1px solid rgba(255,71,87,0.25)' }}
       >
-        <span className="text-2xl">😬</span>
         <p className="text-sm font-semibold text-red-400">If we wait…</p>
         <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>{bad}</p>
       </motion.div>
@@ -82,7 +81,6 @@ function PathFork({ label, good, bad }: { label: string; good: string; bad: stri
         className="flex-1 rounded-2xl p-4 flex flex-col gap-2"
         style={{ background: 'rgba(0,212,170,0.09)', border: '1px solid rgba(0,212,170,0.25)' }}
       >
-        <span className="text-2xl">😊</span>
         <p className="text-sm font-semibold" style={{ color: '#00d4aa' }}>If we treat it now…</p>
         <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>{good}</p>
       </motion.div>
@@ -100,7 +98,7 @@ function Slide1() {
           {mockPatient.avatar}
         </div>
         <h1 className="text-4xl font-bold tracking-tight text-white">
-          Hi {mockPatient.name.split(' ')[0]}! 👋
+          Hi {mockPatient.name.split(' ')[0]}
         </h1>
         <p className="mt-2 text-lg" style={{ color: 'rgba(255,255,255,0.55)' }}>
           Let's walk through what we found today
@@ -120,20 +118,20 @@ function Slide1() {
 
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}
         className="flex gap-3 flex-wrap justify-center">
-        <Pill>🦷 {mockDiagnoses.length} things to discuss</Pill>
-        <Pill color="#ffa502">📅 Next visit: {mockPatient.nextAppointment}</Pill>
-        <Pill>🛡️ {mockPatient.insuranceProvider}</Pill>
+        <Pill>{mockDiagnoses.length} things to discuss</Pill>
+        <Pill color="#ffa502">Next visit: {mockPatient.nextAppointment}</Pill>
+        <Pill>{mockPatient.insuranceProvider}</Pill>
       </motion.div>
     </div>
   );
 }
 
 function Slide2() {
-  const urgencyMap: Record<string, { icon: string; label: string; color: string }> = {
-    soon:    { icon: '🔴', label: 'Needs attention soon',  color: '#ff4757' },
-    routine: { icon: '🟡', label: 'Keep an eye on it',     color: '#ffa502' },
-    urgent:  { icon: '🔴', label: 'Act quickly',           color: '#ff4757' },
-    monitor: { icon: '🟢', label: 'Just monitoring',       color: '#00d4aa' },
+  const urgencyMap: Record<string, { label: string; color: string }> = {
+    soon:    { label: 'Needs attention soon',  color: '#ff4757' },
+    routine: { label: 'Keep an eye on it',     color: '#ffa502' },
+    urgent:  { label: 'Act quickly',           color: '#ff4757' },
+    monitor: { label: 'Just monitoring',       color: '#00d4aa' },
   };
   return (
     <div className="flex flex-col items-center gap-7 text-center w-full max-w-xl">
@@ -154,7 +152,7 @@ function Slide2() {
               className="rounded-2xl p-5 text-left flex gap-4 items-start"
               style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
             >
-              <span className="text-3xl mt-0.5">{u.icon}</span>
+              <div className="w-2.5 h-2.5 rounded-full flex-shrink-0 mt-2" style={{ background: u.color, boxShadow: `0 0 6px ${u.color}80` }} />
               <div className="flex flex-col gap-1.5 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-lg font-semibold text-white">{dx.plainEnglishName}</span>
@@ -198,7 +196,7 @@ function Slide3() {
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
         className="rounded-2xl px-6 py-4 text-sm leading-relaxed max-w-sm text-center"
         style={{ background: 'rgba(0,212,170,0.07)', border: '1px solid rgba(0,212,170,0.2)', color: 'rgba(255,255,255,0.7)' }}>
-        💡 <strong className="text-white">The good news:</strong> {primary.aiExplanation}
+        <strong className="text-white">The good news:</strong> {primary.aiExplanation}
       </motion.div>
     </div>
   );
@@ -206,7 +204,7 @@ function Slide3() {
 
 function Slide4() {
   const allTreatments = mockTreatmentPlan.phases.flatMap(p => p.treatments);
-  const painIcons: Record<string, string> = { none: '😌 No pain', minimal: '🙂 Almost nothing', mild: '😐 Mild discomfort', moderate: '😬 Noticeable' };
+  const painIcons: Record<string, string> = { none: 'No pain', minimal: 'Almost nothing', mild: 'Mild discomfort', moderate: 'Noticeable' };
   return (
     <div className="flex flex-col items-center gap-7 text-center w-full max-w-xl">
       <div>
@@ -235,8 +233,8 @@ function Slide4() {
                 {tx.insuranceCovered && <Pill color="#00d4aa">✓ Covered by insurance</Pill>}
               </div>
               <div className="flex gap-3 flex-wrap text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                <span>⏱ {tx.durationMinutes} min</span>
-                <span>💰 {tx.costRange}</span>
+                <span>{tx.durationMinutes} min</span>
+                <span>{tx.costRange}</span>
                 <span>{painIcons[tx.painLevel] ?? tx.painLevel}</span>
               </div>
               <ul className="mt-1 flex flex-col gap-1">
@@ -272,8 +270,6 @@ function Slide5({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex flex-col items-center gap-8 text-center">
       <div>
-        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
-          className="text-5xl mb-3">🌟</motion.div>
         <h2 className="text-3xl font-bold text-white">Your Healthy Future</h2>
         <p className="mt-1 text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>
           Here's what completing your treatment plan means for you
@@ -300,16 +296,16 @@ function Slide5({ onClose }: { onClose: () => void }) {
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
         className="flex flex-col gap-3 w-full max-w-sm">
         {[
-          { icon: '🚫', text: 'No more cavity growing — the tooth is protected for 10+ years' },
-          { icon: '🦷', text: 'Gums strengthened — no bone loss with regular maintenance' },
-          { icon: '😊', text: 'Tooth sensitivity gone — enjoy hot and cold foods again' },
-        ].map((item, i) => (
+          'No more cavity growing — the tooth is protected for 10+ years',
+          'Gums strengthened — no bone loss with regular maintenance',
+          'Tooth sensitivity gone — enjoy hot and cold foods again',
+        ].map((text, i) => (
           <motion.div key={i} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8 + i * 0.12 }}
-            className="flex items-start gap-3 rounded-xl px-4 py-3 text-left"
+            className="flex items-center gap-3 rounded-xl px-4 py-3 text-left"
             style={{ background: 'rgba(0,212,170,0.07)', border: '1px solid rgba(0,212,170,0.15)' }}>
-            <span className="text-xl shrink-0">{item.icon}</span>
-            <span className="text-sm" style={{ color: 'rgba(255,255,255,0.75)' }}>{item.text}</span>
+            <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#00d4aa' }} />
+            <span className="text-sm" style={{ color: 'rgba(255,255,255,0.75)' }}>{text}</span>
           </motion.div>
         ))}
       </motion.div>
@@ -317,7 +313,7 @@ function Slide5({ onClose }: { onClose: () => void }) {
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}
         className="flex flex-col items-center gap-3 mt-2">
         <p className="text-base font-medium text-white">
-          Your next appointment is <span style={{ color: '#00d4aa' }}>{mockPatient.nextAppointment}</span> 📅
+          Your next appointment is <span style={{ color: '#00d4aa' }}>{mockPatient.nextAppointment}</span>
         </p>
         <button onClick={onClose}
           className="px-8 py-3 rounded-full text-base font-semibold transition-all hover:scale-105 active:scale-95"

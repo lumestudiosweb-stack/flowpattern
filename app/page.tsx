@@ -44,7 +44,7 @@ export default function FlowPattern() {
   };
 
   return (
-    <div className="flex h-full" style={{ background: '#000' }}>
+    <div className="flex h-full" style={{ background: 'var(--bg-base)' }}>
       <Sidebar activeModule={activeModule} onModuleChange={setActiveModule} />
 
       <div className="flex flex-col flex-1 min-w-0 h-full">
@@ -54,7 +54,7 @@ export default function FlowPattern() {
           {patientMode && <PatientExplanationMode onClose={() => setPatientMode(false)} />}
         </AnimatePresence>
 
-        <main className="flex-1 overflow-hidden" style={{ background: '#000' }}>
+        <main className="flex-1 overflow-hidden" style={{ background: 'var(--bg-base)' }}>
           <AnimatePresence>
             <motion.div
               key={activeModule}
