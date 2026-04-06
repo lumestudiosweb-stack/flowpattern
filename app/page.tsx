@@ -13,13 +13,16 @@ import HealthScore from '@/components/modules/HealthScore';
 import ToothModel3D from '@/components/modules/ToothModel3D';
 import OralHealthSimulation from '@/components/modules/OralHealthSimulation';
 import PatientExplanationMode from '@/components/modules/PatientExplanationMode';
+import ConsultationStoryMode from '@/components/modules/ConsultationStoryMode';
 
-type Module = 'dashboard' | 'patient' | 'scan' | 'diagnosis' | 'treatment' | 'score' | 'tooth3d' | 'simulation';
+type Module =
+  | 'dashboard' | 'patient' | 'scan' | 'diagnosis'
+  | 'treatment'  | 'score'   | 'tooth3d' | 'simulation' | 'story';
 
 const moduleVariants = {
   initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit:    { opacity: 0, y: -8, transition: { duration: 0.2 } },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.28 } },
+  exit:    { opacity: 0, y: -8, transition: { duration: 0.18 } },
 };
 
 export default function FlowPattern() {
@@ -36,11 +39,12 @@ export default function FlowPattern() {
       case 'score':      return <HealthScore />;
       case 'tooth3d':    return <ToothModel3D />;
       case 'simulation': return <OralHealthSimulation />;
+      case 'story':      return <ConsultationStoryMode />;
     }
   };
 
   return (
-    <div className="flex h-full" style={{ background: 'var(--bg-base)' }}>
+    <div className="flex h-full" style={{ background: '#000' }}>
       <Sidebar activeModule={activeModule} onModuleChange={setActiveModule} />
 
       <div className="flex flex-col flex-1 min-w-0 h-full">
@@ -50,7 +54,7 @@ export default function FlowPattern() {
           {patientMode && <PatientExplanationMode onClose={() => setPatientMode(false)} />}
         </AnimatePresence>
 
-        <main className="flex-1 overflow-hidden" style={{ background: 'var(--bg-base)' }}>
+        <main className="flex-1 overflow-hidden" style={{ background: '#000' }}>
           <AnimatePresence>
             <motion.div
               key={activeModule}
